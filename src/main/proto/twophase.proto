@@ -1,0 +1,53 @@
+syntax = "proto3";
+package kvGrpc;
+option java_package = "kvGrpc";
+
+// key-value service definition
+service TPC {
+  rpc Prepare (PrepareRequest) returns (PrepareResponse) {}
+  rpc Commit (CommitRequest) returns (CommitResponse) {}
+  rpc Abort(AbortRequest) returns (AbortResponse) {}
+}
+
+
+enum RequestType
+{
+  PUT = 0;
+  DELETE = 1;
+}
+
+message PrepareRequest {
+  string key = 1;
+  string value = 2;
+  RequestType requestType = 3;
+  string originServer = 4;
+  string oldValue = 5;
+}
+
+message PrepareResponse {
+  bool success = 1;
+  string message = 2;
+  string originServer = 3;
+}
+
+message CommitRequest {
+  string key = 1;
+  string value = 2;
+  RequestType requestType = 3;
+  string originServer = 4;
+}
+
+message CommitResponse {
+  bool success = 1;
+  string message = 2;
+  string originServer = 3;
+}
+
+message AbortRequest {
+  string key = 1;
+  string originServer = 2;
+}
+
+message AbortResponse {
+
+}
